@@ -1,20 +1,26 @@
-# Db::Query::Matchers
+# db-query-matchers
 
-TODO: Write a gem description
+RSpec matchers for database queries.
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Add this line to your application's Gemfile, preferably in your `test` group:
 
-    gem 'db-query-matchers'
+```ruby
+gem 'db-query-matchers'
+```
 
 And then execute:
 
-    $ bundle
+```bash
+bundle
+```
 
 Or install it yourself as:
 
-    $ gem install db-query-matchers
+```bash
+gem install db-query-matchers
+```
 
 ## Usage
 
