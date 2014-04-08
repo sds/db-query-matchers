@@ -1,6 +1,7 @@
 # db-query-matchers
 
 [![Gem Version](https://badge.fury.io/rb/db-query-matchers.png)](http://badge.fury.io/rb/db-query-matchers)
+[![Build Status](https://travis-ci.org/causes/db-query-matchers.png)](https://travis-ci.org/causes/db-query-matchers)
 
 RSpec matchers for database queries.
 
