@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.homepage      = 'https://github.com/causes/db-query-matchers'
   spec.license       = 'MIT'
 
-  spec.files         = Dir['lib/**']
+  spec.files         = Dir['lib/**/*.rb']
   spec.require_paths = ['lib']
 
   spec.add_development_dependency 'rspec'
