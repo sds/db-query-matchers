@@ -24,7 +24,27 @@ gem install db-query-matchers
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+describe 'MyCode' do
+  context 'when we expect no queries' do
+    it 'does not make database queries' do
+      expect { subject.make_no_queries }.to_not make_database_queries
+    end
+  end
+
+  context 'when we expect queries' do
+    it 'makes database queries' do
+      expect { subject.make_some_queries }.to make_database_queries
+    end
+  end
+
+  context 'when we expect exactly 1 query' do
+    it 'makes database queries' do
+      expect { subject.make_one_query }.to make_database_queries(count: 1)
+    end
+  end
+end
+```
 
 ## Contributing
 

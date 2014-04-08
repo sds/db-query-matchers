@@ -14,4 +14,9 @@ Gem::Specification.new do |spec|
 
   spec.files         = Dir['lib/**']
   spec.require_paths = ['lib']
+
+  spec.add_development_dependency 'rspec'
+  spec.add_development_dependency 'activesupport', '~> 4.0'
+  spec.add_development_dependency 'activerecord',  '~> 4.0'
+  spec.add_development_dependency 'sqlite3'
 end

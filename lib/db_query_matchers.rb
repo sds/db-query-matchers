@@ -1,1 +1,5 @@
 require 'db_query_matchers/version'
+require 'db_query_matchers/make_database_queries'
+require 'db_query_matchers/query_counter'
+require 'active_support'
+require 'active_record'

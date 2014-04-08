@@ -1,0 +1,84 @@
+require 'spec_helper'
+
+describe '#make_database_queries' do
+  context 'when queries are made' do
+    subject { Cat.first }
+
+    it 'matches true when using `to`' do
+      expect { subject }.to make_database_queries
+    end
+
+    context 'when using `to_not`' do
+      it 'raises an error' do
+        expect do
+          expect { subject }.to_not make_database_queries
+        end.to raise_error
+      end
+
+      it 'lists the queries made in the error message' do
+        expect do
+          expect { subject }.to_not make_database_queries
+        end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
+                           /SELECT.*FROM.*cats/)
+      end
+    end
+
+    context 'when a `count` option is specified' do
+      context 'and the count matches' do
+        it 'matches true' do
+          expect { subject }.to make_database_queries(count: 1)
+        end
+      end
+
+      context 'and the count does not match' do
+        it 'raises an error' do
+          expect do
+            expect { subject }.to make_database_queries(count: 2)
+          end.to raise_error
+        end
+
+        it 'mentions the expected number of queries' do
+          expect do
+            expect { subject }.to make_database_queries(count: 2)
+          end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
+                             /expected 2 queries/)
+        end
+
+        it 'mentions the actual number of queries' do
+          expect do
+            expect { subject }.to make_database_queries(count: 2)
+          end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
+                             /but 1 was made/)
+        end
+
+        it 'lists the queries made in the error message' do
+          expect do
+            expect { subject }.to make_database_queries(count: 2)
+          end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
+                             /SELECT.*FROM.*cats/)
+        end
+      end
+    end
+  end
+
+  context 'when no queries are made' do
+    subject { 'hi' }
+
+    it 'matches true when using `to_not`' do
+      expect { subject }.to_not make_database_queries
+    end
+
+    it 'raises an error when using `to`' do
+      expect do
+        expect { subject }.to make_database_queries
+      end.to raise_error
+    end
+
+    it 'has a readable error message' do
+      expect do
+        expect { subject }.to make_database_queries
+      end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
+                         /expected queries, but none were made/)
+    end
+  end
+end
