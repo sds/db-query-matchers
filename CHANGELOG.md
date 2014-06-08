@@ -1,3 +1,7 @@
+## Unreleased
+
+- Update for RSpec 3.
+
 ## 0.1.2
 
 - Fixed file inclusions in gemspec file.

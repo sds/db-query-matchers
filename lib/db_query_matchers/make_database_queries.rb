@@ -10,6 +10,7 @@ require 'rspec'
 #
 # @see QueryCounter
 RSpec::Matchers.define :make_database_queries do |options = {}|
+  supports_block_expectations
 
   # Taken from ActionView::Helpers::TextHelper
   def pluralize(count, singular, plural = nil)
@@ -34,14 +35,14 @@ RSpec::Matchers.define :make_database_queries do |options = {}|
     end
   end
 
-  failure_message_for_should_not do |_|
+  failure_message_when_negated do |_|
     <<-EOS
       expected no queries, but #{@counter.count} were made:
       #{@counter.log.join("\n")}
     EOS
   end
 
-  failure_message_for_should do |_|
+  failure_message do |_|
     if options[:count]
       expected = pluralize(options[:count], 'query')
       actual   = pluralize(@counter.count, 'was', 'were')
