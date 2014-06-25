@@ -1,3 +1,7 @@
+## Unreleased
+
+- Fix Bundler auto-requiring.
+
 ## 0.2.0
 
 - Update for RSpec 3.
