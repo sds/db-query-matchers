@@ -8,7 +8,7 @@ require 'rspec'
 # @example
 #   expect { subject }.to make_database_queries(count: 1)
 #
-# @see QueryCounter
+# @see DBQueryMatchers::QueryCounter
 RSpec::Matchers.define :make_database_queries do |options = {}|
   supports_block_expectations
 
@@ -24,7 +24,7 @@ RSpec::Matchers.define :make_database_queries do |options = {}|
   end
 
   match do |block|
-    @counter = QueryCounter.new
+    @counter = DBQueryMatchers::QueryCounter.new
     ActiveSupport::Notifications.subscribed(@counter.to_proc,
                                             'sql.active_record',
                                             &block)
