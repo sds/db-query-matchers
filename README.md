@@ -51,6 +51,19 @@ describe 'MyCode' do
 end
 ```
 
+## Configuration
+
+To exclude certain types of queries from being counted, specify an
+`ignores` configuration consisting of an array of regular expressions. If
+a query matches one of the patterns in this array, it will not be
+counted in the `make_database_queries` matcher.
+
+```ruby
+DBQueryMatchers.configure do |config|
+  config.ignores = [/SHOW TABLES LIKE/]
+end
+```
+
 ## Contributing
 
 1. Fork it ( https://github.com/causes/db-query-matchers/fork )

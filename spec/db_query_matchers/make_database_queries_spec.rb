@@ -23,6 +23,40 @@ describe '#make_database_queries' do
       end
     end
 
+    context 'when an `ignores` pattern is configured' do
+      before do
+        DBQueryMatchers.configure do |config|
+          config.ignores = ignores
+        end
+      end
+
+      after { DBQueryMatchers.reset_configuration }
+
+      context 'when the pattern matches the query' do
+        let(:ignores) { [/SELECT.*FROM.*cats/] }
+
+        it 'ignores the query' do
+          expect { subject }.to_not make_database_queries
+        end
+      end
+
+      context 'when the pattern does not match the query' do
+        let(:ignores) { [/SELECT.*FROM.*dogs/] }
+
+        it 'does not ignore the query' do
+          expect { subject }.to make_database_queries(count: 1)
+        end
+      end
+
+      context 'with multiple patterns' do
+        let(:ignores) { [/SELECT.*FROM.*cats/, /SELECT.*FROM.*dogs/] }
+
+        it 'ignores the query' do
+          expect { subject }.to_not make_database_queries
+        end
+      end
+    end
+
     context 'when a `count` option is specified' do
       context 'and the count matches' do
         it 'matches true' do

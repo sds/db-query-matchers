@@ -31,12 +31,15 @@ class QueryCounter
   # Method called from the ActiveSupport::Notifications module (through the
   # lambda created by `to_proc`) when an SQL query is made.
   #
-  # @param name       [String] name of the event
-  # @param start      [Time]   when the instrumented block started execution
-  # @param finish     [Time]   when the instrumented block ended execution
-  # @param message_id [String] unique ID for this notification
+  # @param _name       [String] name of the event
+  # @param _start      [Time]   when the instrumented block started execution
+  # @param _finish     [Time]   when the instrumented block ended execution
+  # @param _message_id [String] unique ID for this notification
   # @param payload    [Hash]   the payload
-  def callback(name, start, finish, message_id, payload)
+  def callback(_name, _start,  _finish, _message_id, payload)
+    return if DBQueryMatchers.configuration.ignores.any? do |pattern|
+      payload[:sql] =~ pattern
+    end
     @count += 1
     @log << payload[:sql]
   end
