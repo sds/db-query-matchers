@@ -1,3 +1,6 @@
+## 0.2.3
+- Fix issue #2
+
 ## 0.2.2
 
 - Add configuration option that will allow you to ignore certain queries.
