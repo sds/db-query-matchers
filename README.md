@@ -48,6 +48,12 @@ describe 'MyCode' do
       expect { subject.make_one_query }.to make_database_queries(count: 1)
     end
   end
+
+  context 'when we only care about manipulative queries (INSERT, UPDATE, DELETE)' do
+    it 'makes a destructive database query' do
+      expect { subject.make_one_query }.to make_database_queries(manipulative: true)
+    end
+  end
 end
 ```
 

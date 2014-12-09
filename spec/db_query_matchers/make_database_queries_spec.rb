@@ -93,6 +93,49 @@ describe '#make_database_queries' do
         end
       end
     end
+
+    context 'when a `manipulative` option is as true' do
+      context 'and there is a create query' do
+        subject { Cat.create }
+
+        it 'matches true' do
+          expect { subject }.to make_database_queries(manipulative: true)
+        end
+      end
+
+      context 'and there is an update query' do
+        before do
+          Cat.create if Cat.count == 0
+        end
+
+        subject { Cat.last.update name: 'Felix' }
+
+        it 'matches true' do
+          expect { subject }.to make_database_queries(manipulative: true)
+        end
+      end
+
+      context 'and there is a destroy query' do
+        before do
+          Cat.create if Cat.count == 0
+        end
+
+        subject { Cat.last.destroy }
+
+        it 'matches true' do
+          expect { subject }.to make_database_queries(manipulative: true)
+        end
+      end
+
+      context 'and there are no manipulative queries' do
+        it 'raises an error' do
+          expect do
+            expect { subject }.to make_database_queries(manipulative: true)
+          end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
+                             /expected queries, but none were made/)
+        end
+      end
+    end
   end
 
   context 'when no queries are made' do
