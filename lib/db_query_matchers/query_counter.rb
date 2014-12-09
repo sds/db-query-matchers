@@ -16,7 +16,8 @@ module DBQueryMatchers
   class QueryCounter
     attr_reader :count, :log
 
-    def initialize
+    def initialize(options = {})
+      @matches = options[:matches]
       @count = 0
       @log   = []
     end
@@ -38,11 +39,16 @@ module DBQueryMatchers
     # @param _message_id [String] unique ID for this notification
     # @param payload    [Hash]   the payload
     def callback(_name, _start,  _finish, _message_id, payload)
-      return if DBQueryMatchers.configuration.ignores.any? do |pattern|
-        payload[:sql] =~ pattern
-      end
+      return if @matches && !any_match?(@matches, payload[:sql])
+      return if any_match?(DBQueryMatchers.configuration.ignores, payload[:sql])
       @count += 1
       @log << payload[:sql]
+    end
+
+    private
+
+    def any_match?(patterns, sql)
+      patterns.any? { |pattern| sql =~ pattern }
     end
   end
 end

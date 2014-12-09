@@ -10,6 +10,9 @@ require 'rspec/mocks'
 # @example
 #   expect { subject }.to make_database_queries(count: 1)
 #
+# @example
+#   expect { subject }.to make_database_queries(manipulative: true)
+#
 # @see DBQueryMatchers::QueryCounter
 RSpec::Matchers.define :make_database_queries do |options = {}|
   supports_block_expectations
@@ -26,7 +29,11 @@ RSpec::Matchers.define :make_database_queries do |options = {}|
   end
 
   match do |block|
-    @counter = DBQueryMatchers::QueryCounter.new
+    counter_options = {}
+    if options[:manipulative]
+      counter_options[:matches] = [/^\ *(INSERT|UPDATE|DELETE\ FROM)/]
+    end
+    @counter = DBQueryMatchers::QueryCounter.new(counter_options)
     ActiveSupport::Notifications.subscribed(@counter.to_proc,
                                             'sql.active_record',
                                             &block)
