@@ -15,7 +15,21 @@ require 'rspec/mocks'
 #
 # @see DBQueryMatchers::QueryCounter
 RSpec::Matchers.define :make_database_queries do |options = {}|
-  supports_block_expectations
+  if RSpec::Core::Version::STRING =~ /^2/
+    def self.failure_message_when_negated(&block)
+      failure_message_for_should_not(&block)
+    end
+
+    def self.failure_message(&block)
+      failure_message_for_should(&block)
+    end
+
+    def supports_block_expectations?
+      true
+    end
+  else
+    supports_block_expectations
+  end
 
   # Taken from ActionView::Helpers::TextHelper
   def pluralize(count, singular, plural = nil)
