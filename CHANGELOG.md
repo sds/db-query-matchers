@@ -1,5 +1,11 @@
+## master (unreleased)
+
+- Restore RSpec 2 support.
+- Add manipulative option to match CREATE, UPDATE and DELETE FROM queries.
+
 ## 0.2.3
-- Fix issue #2
+
+- Fix issue #2.
 
 ## 0.2.2
 
