@@ -1,0 +1,10 @@
+{
+  "lib/db_query_matchers/*.rb": {
+    "alternate": "spec/db_query_matchers/{}_spec.rb",
+    "type": "source"
+  },
+  "spec/db_query_matchers/*_spec.rb": {
+    "alternate": "lib/db_query_matchers/{}.rb",
+    "type": "test"
+  }
+}

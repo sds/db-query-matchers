@@ -2,6 +2,7 @@
 
 - Restore RSpec 2 support.
 - Add manipulative option to match CREATE, UPDATE and DELETE FROM queries.
+- Add .projections.json configuration file.
 
 ## 0.2.3
 
