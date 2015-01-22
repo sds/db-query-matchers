@@ -1,4 +1,4 @@
-## master (unreleased)
+## 0.3.0
 
 - Restore RSpec 2 support.
 - Add manipulative option to match CREATE, UPDATE and DELETE FROM queries.
