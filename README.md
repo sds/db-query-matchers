@@ -1,9 +1,9 @@
 # db-query-matchers
 
 [![Gem Version](https://badge.fury.io/rb/db-query-matchers.png)](http://badge.fury.io/rb/db-query-matchers)
-[![Build Status](https://travis-ci.org/causes/db-query-matchers.png)](https://travis-ci.org/causes/db-query-matchers)
-[![Code Climate](https://codeclimate.com/github/causes/db-query-matchers.png)](https://codeclimate.com/github/causes/db-query-matchers)
-[![Dependency Status](https://gemnasium.com/causes/db-query-matchers.png)](https://gemnasium.com/causes/db-query-matchers)
+[![Build Status](https://travis-ci.org/brigade/db-query-matchers.png)](https://travis-ci.org/brigade/db-query-matchers)
+[![Code Climate](https://codeclimate.com/github/brigade/db-query-matchers.png)](https://codeclimate.com/github/brigade/db-query-matchers)
+[![Dependency Status](https://gemnasium.com/brigade/db-query-matchers.png)](https://gemnasium.com/brigade/db-query-matchers)
 
 RSpec matchers for database queries.
 
@@ -72,7 +72,7 @@ end
 
 ## Contributing
 
-1. Fork it ( https://github.com/causes/db-query-matchers/fork )
+1. Fork it ( https://github.com/brigade/db-query-matchers/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
