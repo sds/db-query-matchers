@@ -136,6 +136,46 @@ describe '#make_database_queries' do
         end
       end
     end
+
+    context 'when a `matching` option is specified' do
+      context 'with a string matcher' do
+        context 'and there is a query matching the matcher specified' do
+          subject { Cat.create }
+
+          it 'matches true' do
+            expect { subject }.to make_database_queries(matching: 'INSERT')
+          end
+        end
+
+        context 'and there are no queries matching the matcher specified' do
+          it 'raises an error' do
+            expect do
+              expect { subject }.to make_database_queries(matching: 'INSERT')
+            end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
+                    /expected queries, but none were made/)
+          end
+        end
+      end
+
+      context 'with a regexp matcher' do
+        context 'and there is a query matching the matcher specified' do
+          subject { Cat.create }
+
+          it 'matches true' do
+            expect { subject }.to make_database_queries(matching: /^\ *INSERT/)
+          end
+        end
+
+        context 'and there are no queries matching the matcher specified' do
+          it 'raises an error' do
+            expect do
+              expect { subject }.to make_database_queries(matching: /^\ *INSERT/)
+            end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
+                    /expected queries, but none were made/)
+          end
+        end
+      end
+    end
   end
 
   context 'when no queries are made' do
