@@ -54,6 +54,16 @@ describe 'MyCode' do
       expect { subject.make_one_query }.to make_database_queries(manipulative: true)
     end
   end
+
+  context 'when we only care about queries matching a certain pattern' do
+    it 'makes a destructive database query' do
+      expect { subject.make_special_queries }.to make_database_queries(matching: 'DELETE * FROM')
+    end
+
+    it 'makes a destructive database query matched with a regexp' do
+      expect { subject.make_special_queries }.to make_database_queries(matching: /DELETE/)
+    end
+  end
 end
 ```
 
