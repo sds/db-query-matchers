@@ -94,6 +94,49 @@ describe '#make_database_queries' do
       end
     end
 
+    context 'when a `no_more_than` option is specified' do
+      context 'and the count matches' do
+        it 'matches true' do
+          expect { subject }.to make_database_queries(no_more_than: 1)
+        end
+      end
+
+      context 'and the count is less than expected' do
+        it 'matches true' do
+          expect { subject }.to make_database_queries(no_more_than: 2)
+        end
+      end
+
+      context 'and the count is greater than expected' do
+        it 'raises an error' do
+          expect do
+            expect { subject }.to make_database_queries(no_more_than: 0)
+          end.to raise_error
+        end
+
+        it 'mentions the expected number of queries' do
+          expect do
+            expect { subject }.to make_database_queries(no_more_than: 0)
+          end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
+                             /expected no more than 0 queries/)
+        end
+
+        it 'mentions the actual number of queries' do
+          expect do
+            expect { subject }.to make_database_queries(no_more_than: 0)
+          end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
+                             /but 1 was made/)
+        end
+
+        it 'lists the queries made in the error message' do
+          expect do
+            expect { subject }.to make_database_queries(no_more_than: 0)
+          end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
+                             /SELECT.*FROM.*cats/)
+        end
+      end
+    end
+
     context 'when a `manipulative` option is as true' do
       context 'and there is a create query' do
         subject { Cat.create }

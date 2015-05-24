@@ -11,6 +11,9 @@ require 'rspec/mocks'
 #   expect { subject }.to make_database_queries(count: 1)
 #
 # @example
+#   expect { subject }.to make_database_queries(no_more_than: 2)
+#
+# @example
 #   expect { subject }.to make_database_queries(manipulative: true)
 #
 # @see DBQueryMatchers::QueryCounter
@@ -60,8 +63,13 @@ RSpec::Matchers.define :make_database_queries do |options = {}|
     ActiveSupport::Notifications.subscribed(@counter.to_proc,
                                             'sql.active_record',
                                             &block)
+
+    # In case both :count and :no_more_than options are present, we give
+    # priority to the :count option.
     if absolute_count = options[:count]
       @counter.count == absolute_count
+    elsif absolute_count = options[:no_more_than]
+      @counter.count <= absolute_count
     else
       @counter.count > 0
     end
@@ -80,6 +88,15 @@ RSpec::Matchers.define :make_database_queries do |options = {}|
       actual   = pluralize(@counter.count, 'was', 'were')
 
       output   = "expected #{expected}, but #{actual} made"
+      if @counter.count > 0
+        output += ":\n#{@counter.log.join("\n")}"
+      end
+      output
+    elsif options[:no_more_than]
+      expected = pluralize(options[:no_more_than], 'query')
+      actual   = pluralize(@counter.count, 'was', 'were')
+
+      output   = "expected no more than #{expected}, but #{actual} made"
       if @counter.count > 0
         output += ":\n#{@counter.log.join("\n")}"
       end
