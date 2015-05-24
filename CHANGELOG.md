@@ -1,3 +1,7 @@
+## 0.3.1
+
+- Add `matching` option that allows you to target certain queries.
+
 ## 0.3.0
 
 - Restore RSpec 2 support.
