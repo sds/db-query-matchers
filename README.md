@@ -49,6 +49,12 @@ describe 'MyCode' do
     end
   end
 
+  context 'when we expect a possible range of queries' do
+    it 'makes database queries' do
+      expect { subject.make_several_queries }.to make_database_queries(count: 3..5)
+    end
+  end
+
   context 'when we only care about manipulative queries (INSERT, UPDATE, DELETE)' do
     it 'makes a destructive database query' do
       expect { subject.make_one_query }.to make_database_queries(manipulative: true)

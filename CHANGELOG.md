@@ -1,3 +1,8 @@
+## master (unreleased)
+
+- Support passing a range to the count: option, by calling the case
+  equality operator on the argument.
+
 ## 0.3.1
 
 - Add `matching` option that allows you to target certain queries.
