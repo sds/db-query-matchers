@@ -58,38 +58,56 @@ describe '#make_database_queries' do
     end
 
     context 'when a `count` option is specified' do
-      context 'and the count matches' do
-        it 'matches true' do
-          expect { subject }.to make_database_queries(count: 1)
+      context 'when the count is a range' do
+        context 'and it matches' do
+          it 'matches true' do
+            expect { subject }.to make_database_queries(count: 1..2)
+          end
+        end
+
+        context 'and it does not match' do
+          it 'raises an error' do
+            expect do
+              expect { subject }.to make_database_queries(count: 2..3)
+            end.to raise_error
+          end
         end
       end
 
-      context 'and the count does not match' do
-        it 'raises an error' do
-          expect do
-            expect { subject }.to make_database_queries(count: 2)
-          end.to raise_error
+      context 'when the count is an integer' do
+        context 'and it matches' do
+          it 'matches true' do
+            expect { subject }.to make_database_queries(count: 1)
+          end
         end
 
-        it 'mentions the expected number of queries' do
-          expect do
-            expect { subject }.to make_database_queries(count: 2)
-          end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
-                             /expected 2 queries/)
-        end
+        context 'and it does not match' do
+          it 'raises an error' do
+            expect do
+              expect { subject }.to make_database_queries(count: 2)
+            end.to raise_error
+          end
 
-        it 'mentions the actual number of queries' do
-          expect do
-            expect { subject }.to make_database_queries(count: 2)
-          end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
-                             /but 1 was made/)
-        end
+          it 'mentions the expected number of queries' do
+            expect do
+              expect { subject }.to make_database_queries(count: 2)
+            end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
+                               /expected 2 queries/)
+          end
 
-        it 'lists the queries made in the error message' do
-          expect do
-            expect { subject }.to make_database_queries(count: 2)
-          end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
-                             /SELECT.*FROM.*cats/)
+          it 'mentions the actual number of queries' do
+            expect do
+              expect { subject }.to make_database_queries(count: 2)
+            end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
+                               /but 1 was made/)
+          end
+
+          it 'lists the queries made in the error message' do
+            expect do
+              expect { subject }.to make_database_queries(count: 2)
+            end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
+                               /SELECT.*FROM.*cats/)
+          end
         end
       end
     end

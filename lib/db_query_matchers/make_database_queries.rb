@@ -61,7 +61,7 @@ RSpec::Matchers.define :make_database_queries do |options = {}|
                                             'sql.active_record',
                                             &block)
     if absolute_count = options[:count]
-      @counter.count == absolute_count
+      absolute_count === @counter.count
     else
       @counter.count > 0
     end
