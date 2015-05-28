@@ -1,4 +1,4 @@
-## master (unreleased)
+## 0.4.0
 
 - Support passing a range to the count: option, by calling the case
   equality operator on the argument.
