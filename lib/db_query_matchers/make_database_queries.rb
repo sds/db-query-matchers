@@ -62,6 +62,8 @@ RSpec::Matchers.define :make_database_queries do |options = {}|
                                             &block)
     if absolute_count = options[:count]
       absolute_count === @counter.count
+    elsif max_count = options[:max]
+      @counter.count <= max_count
     else
       @counter.count > 0
     end
@@ -75,8 +77,8 @@ RSpec::Matchers.define :make_database_queries do |options = {}|
   end
 
   failure_message do |_|
-    if options[:count]
-      expected = pluralize(options[:count], 'query')
+    if count = options[:count] || options[:max]
+      expected = pluralize(count, 'query')
       actual   = pluralize(@counter.count, 'was', 'were')
 
       output   = "expected #{expected}, but #{actual} made"
