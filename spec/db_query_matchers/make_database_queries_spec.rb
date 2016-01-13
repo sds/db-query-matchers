@@ -216,4 +216,17 @@ describe '#make_database_queries' do
                          /expected queries, but none were made/)
     end
   end
+
+  context 'when some other expectation in the block fails' do
+    subject { 
+      Cat.first
+      raise RSpec::Expectations::ExpectationNotMetError.new('other')
+    }
+
+    it 'reraises the error' do
+      expect do
+        expect { subject }.to make_database_queries(count: 1)
+      end.to raise_error(RSpec::Expectations::ExpectationNotMetError, /other/)
+    end
+  end
 end
