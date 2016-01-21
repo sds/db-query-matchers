@@ -42,7 +42,7 @@ RSpec::Matchers.define :make_database_queries do |options = {}|
     "#{count || 0} #{word}"
   end
 
-  match do |block|
+  define_method :matches? do |block|
     counter_options = {}
     if options[:manipulative]
       counter_options[:matches] = [/^\ *(INSERT|UPDATE|DELETE\ FROM)/]
