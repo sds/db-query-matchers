@@ -49,6 +49,12 @@ describe 'MyCode' do
     end
   end
 
+  context 'when we expect max 3 queries' do
+    it 'makes database queries' do
+      expect { subject.make_several_queries }.to make_database_queries(count: 0..3)
+    end
+  end
+
   context 'when we expect a possible range of queries' do
     it 'makes database queries' do
       expect { subject.make_several_queries }.to make_database_queries(count: 3..5)
