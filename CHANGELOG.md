@@ -1,4 +1,5 @@
-## master (unreleased)
+## 0.4.1
+
 - Support a `on_query_counted` configuration option that is a callback for
   arbitrary code.
 
