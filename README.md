@@ -92,7 +92,7 @@ DBQueryMatchers.configure do |config|
 
   # the payload argument is described here:
   # http://edgeguides.rubyonrails.org/active_support_instrumentation.html#sql-active-record
-  config.on_counted_query do |payload|
+  config.on_query_counted do |payload|
     # do something arbitrary with the query
   end
 end
