@@ -1,6 +1,11 @@
-## master (unreleased)
+## 0.4.2
+
 - Support a `on_query_counted` configuration option that is a callback for
   arbitrary code.
+
+## 0.4.1
+
+- Fix wrong error messages for nested block expectations.
 
 ## 0.4.0
 
