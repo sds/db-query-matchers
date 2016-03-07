@@ -23,12 +23,12 @@ describe '#make_database_queries' do
       end
     end
 
-    context 'when there is an on_counted_query callback configured' do
+    context 'when there is an on_query_counted callback configured' do
       before do
         @callback_called = false
 
         DBQueryMatchers.configure do |config|
-          config.on_counted_query = lambda do |payload|
+          config.on_query_counted = lambda do |payload|
             @callback_called = true
           end
         end
