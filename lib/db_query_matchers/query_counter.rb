@@ -43,6 +43,7 @@ module DBQueryMatchers
       return if any_match?(DBQueryMatchers.configuration.ignores, payload[:sql])
       @count += 1
       @log << payload[:sql]
+      DBQueryMatchers.configuration.on_query_counted.call(payload)
     end
 
     private

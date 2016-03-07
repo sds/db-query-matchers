@@ -1,3 +1,7 @@
+## master (unreleased)
+- Support a `on_query_counted` configuration option that is a callback for
+  arbitrary code.
+
 ## 0.4.0
 
 - Support passing a range to the count: option, by calling the case

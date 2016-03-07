@@ -23,6 +23,40 @@ describe '#make_database_queries' do
       end
     end
 
+    context 'when there is an on_query_counted callback configured' do
+      before do
+        @callback_called = false
+
+        DBQueryMatchers.configure do |config|
+          config.on_query_counted = lambda do |payload|
+            @callback_called = true
+          end
+        end
+      end
+
+      after { DBQueryMatchers.reset_configuration }
+
+      it 'is called' do
+        expect { subject }.to make_database_queries
+        expect(@callback_called).to eq(true)
+      end
+
+      context 'with an `ignores` pattern' do
+        before do
+          DBQueryMatchers.configure do |config|
+            config.ignores = ignores
+          end
+        end
+
+        let(:ignores) { [/SELECT.*FROM.*cats/] }
+
+        it 'is not called' do
+          expect { subject }.not_to make_database_queries
+          expect(@callback_called).to eq(false)
+        end
+      end
+    end
+
     context 'when an `ignores` pattern is configured' do
       before do
         DBQueryMatchers.configure do |config|

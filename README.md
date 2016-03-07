@@ -89,5 +89,11 @@ counted in the `make_database_queries` matcher.
 ```ruby
 DBQueryMatchers.configure do |config|
   config.ignores = [/SHOW TABLES LIKE/]
+
+  # the payload argument is described here:
+  # http://edgeguides.rubyonrails.org/active_support_instrumentation.html#sql-active-record
+  config.on_query_counted do |payload|
+    # do something arbitrary with the query
+  end
 end
 ```
