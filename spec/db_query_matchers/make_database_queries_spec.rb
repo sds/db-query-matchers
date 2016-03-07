@@ -12,7 +12,7 @@ describe '#make_database_queries' do
       it 'raises an error' do
         expect do
           expect { subject }.to_not make_database_queries
-        end.to raise_error
+        end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
       end
 
       it 'lists the queries made in the error message' do
@@ -69,7 +69,7 @@ describe '#make_database_queries' do
           it 'raises an error' do
             expect do
               expect { subject }.to make_database_queries(count: 2..3)
-            end.to raise_error
+            end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
           end
         end
       end
@@ -85,7 +85,7 @@ describe '#make_database_queries' do
           it 'raises an error' do
             expect do
               expect { subject }.to make_database_queries(count: 2)
-            end.to raise_error
+            end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
           end
 
           it 'mentions the expected number of queries' do
@@ -206,7 +206,7 @@ describe '#make_database_queries' do
     it 'raises an error when using `to`' do
       expect do
         expect { subject }.to make_database_queries
-      end.to raise_error
+      end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
     end
 
     it 'has a readable error message' do
