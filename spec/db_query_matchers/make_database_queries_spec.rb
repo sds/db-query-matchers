@@ -228,6 +228,33 @@ describe '#make_database_queries' do
         end
       end
     end
+
+    context 'when a `schemaless` option is true' do
+      before do
+        DBQueryMatchers.configure do |config|
+          config.schemaless = true
+        end
+      end
+
+      it 'does not count column information queries' do
+        Cat.connection.schema_cache.clear!
+        Cat.reset_column_information
+        expect { subject }.to make_database_queries(count: 1)
+      end
+    end
+
+    context 'when a `schemaless` option is false' do
+      before do
+        DBQueryMatchers.configure do |config|
+          config.schemaless = false
+        end
+      end
+
+      it 'does count column information queries' do
+        Cat.reset_column_information
+        expect { subject }.to make_database_queries(count: 2..4)
+      end
+    end
   end
 
   context 'when no queries are made' do
@@ -252,7 +279,7 @@ describe '#make_database_queries' do
   end
 
   context 'when some other expectation in the block fails' do
-    subject { 
+    subject {
       Cat.first
       raise RSpec::Expectations::ExpectationNotMetError.new('other')
     }
