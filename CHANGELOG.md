@@ -1,3 +1,9 @@
+## master
+
+## 0.5.0
+
+- Add new `schemaless` option
+
 ## 0.4.2
 
 - Support a `on_query_counted` configuration option that is a callback for
