@@ -86,9 +86,13 @@ To exclude certain types of queries from being counted, specify an
 a query matches one of the patterns in this array, it will not be
 counted in the `make_database_queries` matcher.
 
+To exclude SCHEMA queries, add `schemaless` to the configuration. This will
+help avoid failing specs due to ActiveRecord load order.
+
 ```ruby
 DBQueryMatchers.configure do |config|
   config.ignores = [/SHOW TABLES LIKE/]
+  config.schemaless = true
 
   # the payload argument is described here:
   # http://edgeguides.rubyonrails.org/active_support_instrumentation.html#sql-active-record
