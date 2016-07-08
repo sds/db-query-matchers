@@ -42,8 +42,10 @@ module DBQueryMatchers
       return if @matches && !any_match?(@matches, payload[:sql])
       return if any_match?(DBQueryMatchers.configuration.ignores, payload[:sql])
       return if DBQueryMatchers.configuration.schemaless && payload[:name] == "SCHEMA"
-      @count += 1
-      @log << payload[:sql]
+
+      count_query
+      log_query(payload[:sql])
+
       DBQueryMatchers.configuration.on_query_counted.call(payload)
     end
 
@@ -51,6 +53,22 @@ module DBQueryMatchers
 
     def any_match?(patterns, sql)
       patterns.any? { |pattern| sql =~ pattern }
+    end
+
+    def count_query
+      @count += 1
+    end
+
+    def log_query(sql)
+      log_entry = sql.strip
+
+      if DBQueryMatchers.configuration.log_backtrace
+        raw_backtrace = caller
+        filtered_backtrace = DBQueryMatchers.configuration.backtrace_filter.call(raw_backtrace)
+        log_entry += "\n#{filtered_backtrace.join("\n")}\n"
+      end
+
+      @log << log_entry
     end
   end
 end

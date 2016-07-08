@@ -69,8 +69,8 @@ RSpec::Matchers.define :make_database_queries do |options = {}|
 
   failure_message_when_negated do |_|
     <<-EOS
-      expected no queries, but #{@counter.count} were made:
-      #{@counter.log.join("\n")}
+expected no queries, but #{@counter.count} were made:
+#{@counter.log.join("\n")}
     EOS
   end
 

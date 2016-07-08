@@ -255,6 +255,26 @@ describe '#make_database_queries' do
         expect { subject }.to make_database_queries(count: 2..4)
       end
     end
+
+    context 'when a `log_backtrace` option is true' do
+      before do
+        DBQueryMatchers.configure do |config|
+          config.log_backtrace = true
+          config.backtrace_filter = Proc.new do |backtrace|
+            backtrace.select { |line| line.start_with?(__FILE__) } # only show lines in this file
+          end
+        end
+      end
+
+      it 'logs the backtrace for the query' do
+        expect do
+          expect { subject }.not_to make_database_queries
+        end.to raise_error(RSpec::Expectations::ExpectationNotMetError) do |e|
+          expect(e.message).to match(/SELECT/)
+          expect(e.message).to include(__FILE__)
+        end
+      end
+    end
   end
 
   context 'when no queries are made' do
