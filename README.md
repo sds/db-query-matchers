@@ -89,6 +89,10 @@ counted in the `make_database_queries` matcher.
 To exclude SCHEMA queries, add `schemaless` to the configuration. This will
 help avoid failing specs due to ActiveRecord load order.
 
+To log more about the queries being made, you can set the `log_backtrace`
+option to `true`. And to control what parts of the backtrace is logged,
+you can use `backtrace_filter`.
+
 ```ruby
 DBQueryMatchers.configure do |config|
   config.ignores = [/SHOW TABLES LIKE/]
@@ -98,6 +102,11 @@ DBQueryMatchers.configure do |config|
   # http://edgeguides.rubyonrails.org/active_support_instrumentation.html#sql-active-record
   config.on_query_counted do |payload|
     # do something arbitrary with the query
+  end
+
+  config.log_backtrace = true
+  config.backtrace_filter = Proc.new do |backtrace|
+    backtrace.select { |line| line.start_with?(Rails.root.to_s) }
   end
 end
 ```
