@@ -1,5 +1,9 @@
 ## master
 
+## 0.6.0
+
+- Add new `log_backtrace` and `backtrace_filter` options
+
 ## 0.5.0
 
 - Add new `schemaless` option
