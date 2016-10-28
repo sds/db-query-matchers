@@ -3,7 +3,6 @@ require 'db_query_matchers/make_database_queries'
 require 'db_query_matchers/query_counter'
 require 'db_query_matchers/configuration'
 require 'active_support'
-require 'active_record'
 
 # Main module that holds global configuration.
 module DBQueryMatchers
