@@ -1,9 +1,10 @@
 module DBQueryMatchers
   # Configuration for the DBQueryMatcher module.
   class Configuration
-    attr_accessor :ignores, :on_query_counted, :schemaless, :log_backtrace, :backtrace_filter
+    attr_accessor :ignores, :on_query_counted, :schemaless, :log_backtrace, :backtrace_filter, :db_event
 
     def initialize
+      @db_event = "sql.active_record"
       @ignores = []
       @on_query_counted = Proc.new { }
       @schemaless = false

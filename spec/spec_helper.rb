@@ -1,4 +1,5 @@
 require 'db_query_matchers'
+require 'active_record'
 
 Dir[File.dirname(__FILE__) + '/support/**/*.rb'].each { |f| require f }
 

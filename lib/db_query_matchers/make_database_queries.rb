@@ -58,7 +58,7 @@ RSpec::Matchers.define :make_database_queries do |options = {}|
     end
     @counter = DBQueryMatchers::QueryCounter.new(counter_options)
     ActiveSupport::Notifications.subscribed(@counter.to_proc,
-                                            'sql.active_record',
+                                            DBQueryMatchers.configuration.db_event,
                                             &block)
     if absolute_count = options[:count]
       absolute_count === @counter.count
