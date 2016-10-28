@@ -275,6 +275,26 @@ describe '#make_database_queries' do
         end
       end
     end
+
+    context 'when a different db_event is configured' do
+      before do
+        DBQueryMatchers.configure do |config|
+          config.db_event = 'other_event'
+        end
+      end
+
+      after { DBQueryMatchers.reset_configuration }
+
+      it 'does not respond to normal events' do
+        expect { subject }.not_to make_database_queries
+      end
+
+      it 'responds to custom event' do
+        expect {
+          ActiveSupport::Notifications.publish 'other_event', Time.now, Time.now, 1, { sql: "FOO" }
+        }.to make_database_queries(count: 1)
+      end
+    end
   end
 
   context 'when no queries are made' do
@@ -310,4 +330,5 @@ describe '#make_database_queries' do
       end.to raise_error(RSpec::Expectations::ExpectationNotMetError, /other/)
     end
   end
+
 end
