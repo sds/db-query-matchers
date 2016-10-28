@@ -1,5 +1,10 @@
 ## master
 
+## 0.7.0
+
+- Add new `db_event` configuration option to allow non-ActiveRecord ORMs.
+  Thanks, @sethjeffery. [#20]
+
 ## 0.6.0
 
 - Add new `log_backtrace` and `backtrace_filter` options
