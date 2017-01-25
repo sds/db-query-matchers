@@ -146,6 +146,23 @@ describe '#make_database_queries' do
       end
     end
 
+    context 'when the `max` option is specified' do
+      context 'and it matches' do
+        it 'matches true' do
+          expect { subject }.to make_database_queries(max: 1)
+        end
+      end
+
+      context 'and it does not match' do
+        it 'raises an error' do
+          expect do
+            expect { subject }.to make_database_queries(max: 0)
+          end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
+                             /but 1 was made/)
+        end
+      end
+    end
+
     context 'when a `manipulative` option is as true' do
       context 'and there is a create query' do
         subject { Cat.create }
