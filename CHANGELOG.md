@@ -1,5 +1,9 @@
 ## master
 
+## 0.8.0
+
+- No longer require `rspec/mocks`.
+
 ## 0.7.0
 
 - Add new `db_event` configuration option to allow non-ActiveRecord ORMs.
