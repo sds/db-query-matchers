@@ -1,5 +1,9 @@
 ## master
 
+## 0.9.0
+
+- Add `rspec` and `activesupport` as proper runtime dependencies
+
 ## 0.8.0
 
 - No longer require `rspec/mocks`.
