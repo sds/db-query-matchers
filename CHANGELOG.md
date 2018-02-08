@@ -1,5 +1,10 @@
 ## master
 
+## 0.10.0
+
+- Add new `ignore_cached` option to exclude queries previously cached by
+  ActiveRecord from being counted
+
 ## 0.9.0
 
 - Add `rspec` and `activesupport` as proper runtime dependencies
