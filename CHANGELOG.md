@@ -2,6 +2,7 @@
 
 - Relax dependencies for compatibility with Rails 7.0
 - Move CI to GitHub actions
+- Add new `ignore_cached` option to exclude queries previously cached by
 
 ## 0.10.0
 
