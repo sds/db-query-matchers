@@ -5,7 +5,7 @@
 [![Code Climate](https://codeclimate.com/github/brigade/db-query-matchers.png)](https://codeclimate.com/github/brigade/db-query-matchers)
 [![Dependency Status](https://gemnasium.com/brigade/db-query-matchers.png)](https://gemnasium.com/brigade/db-query-matchers)
 
-RSpec matchers for database queries.
+RSpec matchers for database queries made by ActiveRecord.
 
 ## Installation
 
