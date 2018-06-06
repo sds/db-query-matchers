@@ -17,5 +17,11 @@ RSpec.configure do |config|
     create_table :dogs, :force => true do |t|
       t.column :name, :string
     end
+
+    create_table :authors, :force => true
+
+    create_table :posts, :force => true do |t|
+      t.references :author
+    end
   end
 end
