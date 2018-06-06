@@ -17,7 +17,18 @@ module DBQueryMatchers
     attr_reader :count, :log
 
     def initialize(options = {})
-      @matches = options[:matches]
+      if options[:manipulative]
+        @matches = [/^\ *(INSERT|UPDATE|DELETE\ FROM)/]
+      end
+      if options[:matching]
+        @matches ||= []
+        case options[:matching]
+        when Regexp
+          @matches << options[:matching]
+        when String
+          @matches << Regexp.new(Regexp.escape(options[:matching]))
+        end
+      end
       @count = 0
       @log   = []
     end
