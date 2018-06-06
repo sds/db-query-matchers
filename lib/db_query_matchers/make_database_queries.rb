@@ -45,32 +45,7 @@ RSpec::Matchers.define :make_database_queries do |options = {}|
   end
 
   define_method :matches? do |block|
-    counter_options = {}
-    if options[:manipulative]
-      counter_options[:matches] = [/^\ *(INSERT|UPDATE|DELETE\ FROM)/]
-    end
-    if options[:unscoped]
-      counter_options[:matches] = [
-        %r{
-          (?:                         # Any of these appear
-            SELECT(?!\sCOUNT).*FROM|  #   SELECT ... FROM (not SELECT ... COUNT)
-            DELETE\sFROM|             #   DELETE ... FROM
-            UPDATE.*SET               #   UPDATE ... SET
-          )
-          (?!.*(WHERE|LIMIT))         # Followed by WHERE and/or LIMIT
-        }mx                           # Ignore whitespace and newlines
-      ]
-    end
-    if options[:matching]
-      counter_options[:matches] ||= []
-      case options[:matching]
-      when Regexp
-        counter_options[:matches] << options[:matching]
-      when String
-        counter_options[:matches] << Regexp.new(Regexp.escape(options[:matching]))
-      end
-    end
-    @counter = DBQueryMatchers::QueryCounter.new(counter_options)
+    @counter = DBQueryMatchers::QueryCounter.new(options)
     ActiveSupport::Notifications.subscribed(@counter.to_proc,
                                             DBQueryMatchers.configuration.db_event,
                                             &block)
