@@ -12,6 +12,9 @@ require 'rspec/expectations'
 # @example
 #   expect { subject }.to make_database_queries(manipulative: true)
 #
+# @example
+#   expect { subject }.to make_database_queries(unscoped: true)
+#
 # @see DBQueryMatchers::QueryCounter
 RSpec::Matchers.define :make_database_queries do |options = {}|
   if RSpec::Core::Version::STRING =~ /^2/
@@ -45,6 +48,9 @@ RSpec::Matchers.define :make_database_queries do |options = {}|
     counter_options = {}
     if options[:manipulative]
       counter_options[:matches] = [/^\ *(INSERT|UPDATE|DELETE\ FROM)/]
+    end
+    if options[:unscoped]
+      counter_options[:matches] = [/^ SELECT(?!\sCOUNT).*FROM(?!.*(WHERE|LIMIT))/mx]
     end
     if options[:matching]
       counter_options[:matches] ||= []

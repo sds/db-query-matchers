@@ -189,6 +189,50 @@ describe '#make_database_queries' do
       end
     end
 
+    context 'when a `unscoped` option is as true' do
+      shared_examples 'it raises an error' do
+        it 'raises an error' do
+          expect do
+            expect { subject }.to make_database_queries(unscoped: true)
+          end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
+                             /expected queries, but none were made/)
+        end
+
+        it 'does not raise with `to_not`' do
+          expect { subject }.to_not make_database_queries(unscoped: true)
+        end
+      end
+
+      before do
+        Cat.create if Cat.count == 0
+      end
+
+      context 'and there is a query without a WHERE or LIMIT clause' do
+        subject { Cat.all.to_a }
+
+        it 'matches true' do
+          expect { subject }.to make_database_queries(unscoped: true)
+        end
+
+        it 'raises an error with `to_not`' do
+          expect do
+            expect { subject }.to_not make_database_queries(unscoped: true)
+          end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
+                             /expected no queries, but 1 were made/)
+        end
+      end
+
+      context 'there is a limit clause' do
+        subject { Cat.all.limit(100).to_a }
+        include_examples 'it raises an error'
+      end
+
+      context 'there is a where clause' do
+        subject { Cat.where(name: 'bob').to_a }
+        include_examples 'it raises an error'
+      end
+    end
+
     context 'when a `matching` option is specified' do
       context 'with a string matcher' do
         context 'and there is a query matching the matcher specified' do
