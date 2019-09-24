@@ -50,7 +50,16 @@ RSpec::Matchers.define :make_database_queries do |options = {}|
       counter_options[:matches] = [/^\ *(INSERT|UPDATE|DELETE\ FROM)/]
     end
     if options[:unscoped]
-      counter_options[:matches] = [/^ SELECT(?!\sCOUNT).*FROM(?!.*(WHERE|LIMIT))/mx]
+      counter_options[:matches] = [
+        %r{
+          (?:                         # Any of these appear
+            SELECT(?!\sCOUNT).*FROM|  #   SELECT ... FROM (not SELECT ... COUNT)
+            DELETE\sFROM|             #   DELETE ... FROM
+            UPDATE.*SET               #   UPDATE ... SET
+          )
+          (?!.*(WHERE|LIMIT))         # Followed by WHERE and/or LIMIT
+        }mx                           # Ignore whitespace and newlines
+      ]
     end
     if options[:matching]
       counter_options[:matches] ||= []
