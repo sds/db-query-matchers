@@ -189,6 +189,178 @@ describe '#make_database_queries' do
       end
     end
 
+    context 'when a `unscoped` option is true' do
+      shared_examples 'it raises an error' do
+        it 'raises an error' do
+          expect do
+            expect { subject }.to make_database_queries(unscoped: true)
+          end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
+                             /expected queries, but none were made/)
+        end
+
+        it 'does not raise with `to_not`' do
+          expect { subject }.to_not make_database_queries(unscoped: true)
+        end
+      end
+
+      before do
+        Cat.create if Cat.count == 0
+      end
+
+      context 'and there is a query without a WHERE or LIMIT clause' do
+        context 'SELECT' do
+          subject { Cat.all.to_a }
+
+          it 'matches true' do
+            expect { subject }.to make_database_queries(unscoped: true)
+          end
+
+          it 'raises an error with `to_not`' do
+            expect do
+              expect { subject }.to_not make_database_queries(unscoped: true)
+            end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
+                               /expected no queries, but 1 were made/)
+          end
+        end
+
+        context 'DELETE' do
+          subject { Cat.delete_all }
+
+          it 'matches true' do
+            expect { subject }.to make_database_queries(unscoped: true)
+          end
+
+          it 'raises an error with `to_not`' do
+            expect do
+              expect { subject }.to_not make_database_queries(unscoped: true)
+            end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
+                               /expected no queries, but 1 were made/)
+          end
+        end
+
+        context 'UPDATE' do
+          subject { Cat.update_all(name: 'Nombre') }
+
+          it 'matches true' do
+            expect { subject }.to make_database_queries(unscoped: true)
+          end
+
+          it 'raises an error with `to_not`' do
+            expect do
+              expect { subject }.to_not make_database_queries(unscoped: true)
+            end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
+                               /expected no queries, but 1 were made/)
+          end
+        end
+
+        context 'INSERT' do
+          context 'without INTO SELECT' do
+            subject { Cat.create name: 'Joe' }
+
+            it 'matches false' do
+              expect { subject }.to_not make_database_queries(unscoped: true)
+            end
+          end
+
+          context 'with INTO SELECT' do
+            subject do
+              Cat.connection.execute <<-SQL
+                INSERT INTO "cats" SELECT * FROM "dogs";
+              SQL
+            end
+            it 'matches true' do
+              expect { subject }.to make_database_queries(unscoped: true)
+            end
+
+            it 'raises an error with `to`' do
+              expect do
+                expect { subject }.to_not make_database_queries(unscoped: true)
+              end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
+                                 /expected no queries, but 1 were made/)
+            end
+          end
+        end
+      end
+
+      context 'there is a limit clause' do
+        context 'SELECT' do
+          subject { Cat.all.limit(100).to_a }
+          include_examples 'it raises an error'
+        end
+
+        context 'UPDATE' do
+          subject { Cat.limit(10).update_all(name: 'Nombre') }
+          include_examples 'it raises an error'
+        end
+
+        context 'DELETE' do
+          subject { Cat.limit(100).delete_all }
+          include_examples 'it raises an error'
+        end
+
+        context 'INTO SELECT' do
+          subject do
+            Cat.connection.execute <<-SQL
+              INSERT INTO "cats" SELECT * FROM "dogs" LIMIT 100;
+            SQL
+          end
+          include_examples 'it raises an error'
+        end
+      end
+
+      context 'there is a where clause' do
+        context 'SELECT' do
+          subject { Cat.where(name: 'Bob').to_a }
+          include_examples 'it raises an error'
+        end
+
+        context 'UPDATE' do
+          subject { Cat.where(name: 'Bob').update_all(name: 'Nombre') }
+          include_examples 'it raises an error'
+        end
+
+        context 'DELETE' do
+          subject { Cat.where(name: 'Bob').delete_all }
+          include_examples 'it raises an error'
+        end
+
+        context 'INTO SELECT' do
+          subject do
+            Cat.connection.execute <<-SQL
+              INSERT INTO "cats" SELECT * FROM "dogs" WHERE "dogs"."name" = 'Fido';
+            SQL
+          end
+          include_examples 'it raises an error'
+        end
+      end
+
+      context 'there is a where and limit clause' do
+        context 'SELECT' do
+          subject { Cat.where(name: 'Bob').limit(10).to_a }
+          include_examples 'it raises an error'
+        end
+
+        context 'UPDATE' do
+          subject { Cat.where(name: 'Bob').limit(10).update_all(name: 'Nombre') }
+          include_examples 'it raises an error'
+        end
+
+        context 'DELETE' do
+          subject { Cat.where(name: 'Bob').limit(10).delete_all }
+          include_examples 'it raises an error'
+        end
+
+        context 'INTO SELECT' do
+          subject do
+            Cat.connection.execute <<-SQL
+              INSERT INTO "cats" SELECT * FROM "dogs" WHERE "dogs"."name" = 'Fido' LIMIT 10;
+            SQL
+          end
+          include_examples 'it raises an error'
+        end
+      end
+    end
+
     context 'when a `matching` option is specified' do
       context 'with a string matcher' do
         context 'and there is a query matching the matcher specified' do

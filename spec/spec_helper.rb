@@ -13,5 +13,9 @@ RSpec.configure do |config|
     create_table :cats, :force => true do |t|
       t.column :name, :string
     end
+
+    create_table :dogs, :force => true do |t|
+      t.column :name, :string
+    end
   end
 end

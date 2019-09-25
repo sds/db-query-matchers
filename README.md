@@ -67,6 +67,12 @@ describe 'MyCode' do
     end
   end
 
+  context 'when we only care about unscoped queries (SELECT without a WHERE or LIMIT clause))' do
+    it 'makes an unscoped database query' do
+      expect { subject.make_one_query }.to make_database_queries(unscoped: true)
+    end
+  end
+
   context 'when we only care about queries matching a certain pattern' do
     it 'makes a destructive database query' do
       expect { subject.make_special_queries }.to make_database_queries(matching: 'DELETE * FROM')
