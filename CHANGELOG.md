@@ -1,5 +1,10 @@
 ## master
 
+## 0.10.0
+
+- Relax dependencies for compatibility with Rails 6.0
+- Add `unscoped` option for counting queries with no `WHERE` / `LIMIT`
+
 ## 0.9.0
 
 - Add `rspec` and `activesupport` as proper runtime dependencies
