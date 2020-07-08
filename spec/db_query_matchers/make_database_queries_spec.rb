@@ -294,7 +294,15 @@ describe '#make_database_queries' do
         end
 
         context 'DELETE' do
-          subject { Cat.limit(100).delete_all }
+          subject do
+            begin
+              Cat.limit(100).delete_all
+            rescue ActiveRecord::ActiveRecordError => e
+              pending("delete_all doesn't support limits prior to ActiveRecord 5.2") if e.message.include?("delete_all doesn't support limit")
+              raise
+            end
+          end
+
           include_examples 'it raises an error'
         end
 
@@ -346,7 +354,15 @@ describe '#make_database_queries' do
         end
 
         context 'DELETE' do
-          subject { Cat.where(name: 'Bob').limit(10).delete_all }
+          subject do
+            begin
+              Cat.where(name: 'Bob').limit(10).delete_all
+            rescue ActiveRecord::ActiveRecordError => e
+              pending("delete_all doesn't support limits prior to ActiveRecord 5.2") if e.message.include?("delete_all doesn't support limit")
+              raise
+            end
+          end
+
           include_examples 'it raises an error'
         end
 
