@@ -4,6 +4,8 @@
 
 - Add new `ignore_cached` option to exclude queries previously cached by
   ActiveRecord from being counted
+- Relax dependencies for compatibility with Rails 6.0
+- Add `unscoped` option for counting queries with no `WHERE` / `LIMIT`
 
 ## 0.9.0
 

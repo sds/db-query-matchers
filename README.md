@@ -5,7 +5,7 @@
 [![Code Climate](https://codeclimate.com/github/brigade/db-query-matchers.png)](https://codeclimate.com/github/brigade/db-query-matchers)
 [![Dependency Status](https://gemnasium.com/brigade/db-query-matchers.png)](https://gemnasium.com/brigade/db-query-matchers)
 
-RSpec matchers for database queries.
+RSpec matchers for database queries made by ActiveRecord.
 
 ## Installation
 
@@ -64,6 +64,12 @@ describe 'MyCode' do
   context 'when we only care about manipulative queries (INSERT, UPDATE, DELETE)' do
     it 'makes a destructive database query' do
       expect { subject.make_one_query }.to make_database_queries(manipulative: true)
+    end
+  end
+
+  context 'when we only care about unscoped queries (SELECT without a WHERE or LIMIT clause))' do
+    it 'makes an unscoped database query' do
+      expect { subject.make_one_query }.to make_database_queries(unscoped: true)
     end
   end
 

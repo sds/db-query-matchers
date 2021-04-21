@@ -15,10 +15,10 @@ Gem::Specification.new do |spec|
   spec.files         = Dir['lib/**/*.rb']
   spec.require_paths = ['lib']
 
-  spec.add_runtime_dependency 'activesupport', '>= 4.0', "<= 6.0"
+  spec.add_runtime_dependency 'activesupport', '>= 4.0', "< 7"
   spec.add_runtime_dependency 'rspec', '~> 3.0'
 
-  spec.add_development_dependency 'activerecord',  '>= 4.0', "<= 6.0"
+  spec.add_development_dependency 'activerecord',  '>= 4.0', "< 7"
   spec.add_development_dependency 'sqlite3'
   spec.add_development_dependency "appraisal", "~> 2.0"
 
