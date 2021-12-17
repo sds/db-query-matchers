@@ -1,9 +1,7 @@
 # db-query-matchers
 
-[![Gem Version](https://badge.fury.io/rb/db-query-matchers.png)](http://badge.fury.io/rb/db-query-matchers)
-[![Build Status](https://travis-ci.org/brigade/db-query-matchers.png)](https://travis-ci.org/brigade/db-query-matchers)
-[![Code Climate](https://codeclimate.com/github/brigade/db-query-matchers.png)](https://codeclimate.com/github/brigade/db-query-matchers)
-[![Dependency Status](https://gemnasium.com/brigade/db-query-matchers.png)](https://gemnasium.com/brigade/db-query-matchers)
+[![Gem Version](https://badge.fury.io/rb/db-query-matchers.svg)](https://badge.fury.io/rb/db-query-matchers)
+[![Maintainability](https://api.codeclimate.com/v1/badges/776d6f7223e01be5f17a/maintainability)](https://codeclimate.com/github/brigade/db-query-matchers/maintainability)
 
 RSpec matchers for database queries made by ActiveRecord.
 
