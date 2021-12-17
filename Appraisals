@@ -51,3 +51,9 @@ appraise "rails_7_0" do
   gem "activesupport", version
   gem "sqlite3", "~> 1.4"
 end
+
+appraise "rails_edge" do
+  gem "activerecord", github: 'rails/rails'
+  gem "activesupport", github: 'rails/rails'
+  gem "sqlite3", "~> 1.4"
+end

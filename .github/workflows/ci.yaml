@@ -78,6 +78,12 @@ jobs:
             gemfile: rails_5_2
             experimental: false
 
+          - ruby-version: '2.7'
+            gemfile: rails_edge
+            experimental: true
+          - ruby-version: '3.0'
+            gemfile: rails_edge
+            experimental: true
           - ruby-version: 'head'
             gemfile: rails_6_0
             experimental: true
@@ -86,6 +92,9 @@ jobs:
             experimental: true
           - ruby-version: 'head'
             gemfile: rails_7_0
+            experimental: true
+          - ruby-version: 'head'
+            gemfile: rails_edge
             experimental: true
 
         exclude:
