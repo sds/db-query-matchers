@@ -1,0 +1,107 @@
+name: Ruby specs
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  test:
+    name: Specs
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ruby-version: ['2.5', '2.6', '2.7', '3.0']
+        gemfile: [ rails_5.2, rails_6.0, rails_6.1 ]
+        experimental: [false]
+
+        include:
+          - ruby-version: 1.9
+            gemfile: rails_4_0
+            experimental: false
+          - ruby-version: 1.9
+            gemfile: rails_4_1
+            experimental: false
+          - ruby-version: 1.9
+            gemfile: rails_4_2
+            experimental: false
+          - ruby-version: 2.0
+            gemfile: rails_4_0
+            experimental: false
+          - ruby-version: 2.0
+            gemfile: rails_4_1
+            experimental: false
+          - ruby-version: 2.0
+            gemfile: rails_4_2
+            experimental: false
+          - ruby-version: 2.1
+            gemfile: rails_4_1
+            experimental: false
+          - ruby-version: 2.1
+            gemfile: rails_4_2
+            experimental: false
+          - ruby-version: 2.2
+            gemfile: rails_4_2
+            experimental: false
+          - ruby-version: 2.2
+            gemfile: rails_5_0
+            experimental: false
+          - ruby-version: 2.2
+            gemfile: rails_5_1
+            experimental: false
+          - ruby-version: 2.2
+            gemfile: rails_5_2
+            experimental: false
+          - ruby-version: 2.3
+            gemfile: rails_4_2
+            experimental: false
+          - ruby-version: 2.3
+            gemfile: rails_5_0
+            experimental: false
+          - ruby-version: 2.3
+            gemfile: rails_5_1
+            experimental: false
+          - ruby-version: 2.3
+            gemfile: rails_5_2
+            experimental: false
+          - ruby-version: 2.4
+            gemfile: rails_4_2
+            experimental: false
+          - ruby-version: 2.4
+            gemfile: rails_5_0
+            experimental: false
+          - ruby-version: 2.4
+            gemfile: rails_5_1
+            experimental: false
+          - ruby-version: 2.4
+            gemfile: rails_5_2
+            experimental: false
+
+          - ruby-version: 'head'
+            gemfile: rails_6.0
+            experimental: true
+          - ruby-version: 'head'
+            gemfile: rails_6.1
+            experimental: true
+
+        exclude:
+          - ruby-version: '2.7'
+            gemfile: rails_5.2
+          - ruby-version: '3.0'
+            gemfile: rails_5.2
+
+    env:
+      BUNDLE_GEMFILE: gemfiles/${{ matrix.gemfile }}.gemfile
+
+    continue-on-error: ${{ matrix.experimental }}
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby-version }}
+        bundler-cache: true
+    - name: Run tests
+      run: bundle exec rake
