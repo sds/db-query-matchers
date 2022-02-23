@@ -1,4 +1,4 @@
-## master
+## `main` (unreleased)
 
 - Relax dependencies for compatibility with Rails 7.0
 - Move CI to GitHub actions
