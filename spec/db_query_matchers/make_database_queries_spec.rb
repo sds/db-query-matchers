@@ -444,6 +444,39 @@ describe '#make_database_queries' do
       end
     end
 
+    context 'with ActiveRecord cache' do
+      let(:pattern) { /SELECT.*FROM.*cats/ }
+      subject do
+        ActiveRecord::Base.connection.cache do
+          2.times { Cat.first }
+        end
+      end
+
+      context 'when a `ignore_cached` option is true' do
+        before do
+          DBQueryMatchers.configure do |config|
+            config.ignore_cached = true
+          end
+        end
+
+        it 'ignores cached queries' do
+          expect { subject }.to make_database_queries(count: 1, matching: pattern)
+        end
+      end
+
+      context 'when a `ignore_cached` option is false' do
+        before do
+          DBQueryMatchers.configure do |config|
+            config.ignore_cached = false
+          end
+        end
+
+        it 'counts cached queries' do
+          expect { subject }.to make_database_queries(count: 2, matching: pattern)
+        end
+      end
+    end
+
     context 'when a `log_backtrace` option is true' do
       before do
         DBQueryMatchers.configure do |config|

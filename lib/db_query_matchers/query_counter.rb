@@ -41,6 +41,7 @@ module DBQueryMatchers
     def callback(_name, _start,  _finish, _message_id, payload)
       return if @matches && !any_match?(@matches, payload[:sql])
       return if any_match?(DBQueryMatchers.configuration.ignores, payload[:sql])
+      return if DBQueryMatchers.configuration.ignore_cached && payload[:cached]
       return if DBQueryMatchers.configuration.schemaless && payload[:name] == "SCHEMA"
 
       count_query
