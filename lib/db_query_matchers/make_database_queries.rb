@@ -35,7 +35,7 @@ RSpec::Matchers.define :make_database_queries do |options = {}|
 
   # Taken from ActionView::Helpers::TextHelper
   def pluralize(count, singular, plural = nil)
-    word = if count == 1 || count =~ /^1(\.0+)?$/
+    word = if count == 1 || count.to_s =~ /^1(\.0+)?$/
              singular
            else
              plural || singular.pluralize
@@ -70,6 +70,10 @@ RSpec::Matchers.define :make_database_queries do |options = {}|
         counter_options[:matches] << Regexp.new(Regexp.escape(options[:matching]))
       end
     end
+    if options[:database_role]
+      counter_options[:database_role] = options[:database_role]
+    end
+
     @counter = DBQueryMatchers::QueryCounter.new(counter_options)
     ActiveSupport::Notifications.subscribed(@counter.to_proc,
                                             DBQueryMatchers.configuration.db_event,

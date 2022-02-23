@@ -1,5 +1,8 @@
 ## master
 
+- Relax dependencies for compatibility with Rails 7.0
+- Move CI to GitHub actions
+
 ## 0.10.0
 
 - Relax dependencies for compatibility with Rails 6.0

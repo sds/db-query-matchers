@@ -294,7 +294,15 @@ describe '#make_database_queries' do
         end
 
         context 'DELETE' do
-          subject { Cat.limit(100).delete_all }
+          subject do
+            begin
+              Cat.limit(100).delete_all
+            rescue ActiveRecord::ActiveRecordError => e
+              pending("delete_all doesn't support limits prior to ActiveRecord 5.2") if e.message.include?("delete_all doesn't support limit")
+              raise
+            end
+          end
+
           include_examples 'it raises an error'
         end
 
@@ -346,7 +354,15 @@ describe '#make_database_queries' do
         end
 
         context 'DELETE' do
-          subject { Cat.where(name: 'Bob').limit(10).delete_all }
+          subject do
+            begin
+              Cat.where(name: 'Bob').limit(10).delete_all
+            rescue ActiveRecord::ActiveRecordError => e
+              pending("delete_all doesn't support limits prior to ActiveRecord 5.2") if e.message.include?("delete_all doesn't support limit")
+              raise
+            end
+          end
+
           include_examples 'it raises an error'
         end
 
@@ -465,6 +481,28 @@ describe '#make_database_queries' do
         expect {
           ActiveSupport::Notifications.publish 'other_event', Time.now, Time.now, 1, { sql: "FOO" }
         }.to make_database_queries(count: 1)
+      end
+    end
+  end
+
+  if Gem::Version.new(ActiveRecord::VERSION::STRING) >= Gem::Version.new('6.0.0')
+    context 'when a database_role is used' do
+      subject { Cat.first }
+
+      it 'matches true when the matching database role was used' do
+        expect do
+          ActiveRecord::Base.connected_to(:reading) do
+            subject
+          end
+        end.to make_database_queries(database_role: :reading)
+      end
+
+      it 'matches false when a non-matching database role was used' do
+        expect do
+          ActiveRecord::Base.connected_to(:reading) do
+            subject
+          end
+        end.to make_database_queries(database_role: :writing)
       end
     end
   end
