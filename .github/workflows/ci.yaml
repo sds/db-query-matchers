@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         ruby-version: ['2.5', '2.6', '2.7', '3.0']
-        gemfile: [ rails_5_2, rails_6_0, rails_6_1, rails_7_0 ]
+        gemfile: [ rails_5_2, rails_6_0, rails_6_1, rails_7_0, rails_7_1 ]
         experimental: [false]
 
         include:
@@ -41,6 +41,12 @@ jobs:
 
         exclude:
           - ruby-version: '2.5'
+            gemfile: rails_7_1
+          - ruby-version: '2.6'
+            gemfile: rails_7_1
+          - ruby-version: '2.7'
+            gemfile: rails_7_1
+          - ruby-version: '2.5'
             gemfile: rails_7_0
           - ruby-version: '2.6'
             gemfile: rails_7_0
@@ -48,6 +54,7 @@ jobs:
             gemfile: rails_5_2
           - ruby-version: '3.0'
             gemfile: rails_5_2
+
 
     env:
       BUNDLE_GEMFILE: gemfiles/${{ matrix.gemfile }}.gemfile
