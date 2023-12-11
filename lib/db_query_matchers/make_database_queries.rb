@@ -69,6 +69,8 @@ RSpec::Matchers.define :make_database_queries do |options = {}|
         counter_options[:matches] << Regexp.new(Regexp.escape(options[:matching]))
       end
     end
+
+    counter_options[:database_role] = options[:database_role]
     @counter = DBQueryMatchers::QueryCounter.new(counter_options)
     ActiveSupport::Notifications.subscribed(@counter.to_proc,
                                             DBQueryMatchers.configuration.db_event,

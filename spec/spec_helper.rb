@@ -4,8 +4,14 @@ require 'active_record'
 Dir[File.dirname(__FILE__) + '/support/**/*.rb'].each { |f| require f }
 
 RSpec.configure do |config|
-  ActiveRecord::Base.establish_connection adapter:  'sqlite3',
-                                          database: ':memory:'
+  if ActiveRecord::VERSION::MAJOR > 5
+    ActiveRecord::Base.establish_connection adapter:  'sqlite3',
+                                            database: ':memory:',
+                                            role: :writing
+  else
+    ActiveRecord::Base.establish_connection adapter:  'sqlite3',
+                                            database: ':memory:'
+  end
 
   ActiveRecord::Schema.define do
     self.verbose = false
