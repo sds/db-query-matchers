@@ -1,8 +1,7 @@
 # db-query-matchers
 
 [![Gem Version](https://badge.fury.io/rb/db-query-matchers.svg)](https://badge.fury.io/rb/db-query-matchers)
-[![Build Status](https://github.com/civiccc/db-query-matchers/actions/workflows/ci.yml/badge.svg)](https://github.com/civiccc/db-query-matchers/actions)
-[![Maintainability](https://api.codeclimate.com/v1/badges/776d6f7223e01be5f17a/maintainability)](https://codeclimate.com/github/brigade/db-query-matchers/maintainability)
+[![Build Status](https://github.com/civiccc/db-query-matchers/actions/workflows/ci.yaml/badge.svg)](https://github.com/civiccc/db-query-matchers/actions)
 
 RSpec matchers for database queries made by ActiveRecord.
 

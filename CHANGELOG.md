@@ -1,3 +1,8 @@
+## 0.12.0
+
+- Drop support for EOL software (Ruby 2.x, Rails 6.0)
+- Add `database_role` option to scope checks for replicas
+
 ## 0.11.0
 
 - Relax dependencies for compatibility with Rails 7.0
