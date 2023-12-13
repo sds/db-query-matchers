@@ -417,6 +417,27 @@ describe '#make_database_queries' do
       end
     end
 
+    if ActiveRecord::VERSION::MAJOR > 6 ||
+        (ActiveRecord::VERSION::MAJOR == 6 && ActiveRecord::VERSION::MINOR > 0)
+      context 'when the database_role option is used' do
+        context 'and a query is using the specified role' do
+          subject { Cat.create }
+          it 'matches true' do
+            expect { subject }.to make_database_queries(database_role: :writing)
+          end
+        end
+
+        context 'and no queries are made matching the role' do
+          it 'raises an error' do
+            expect do
+              expect { subject }.to make_database_queries(database_role: :reading)
+            end.to raise_error(RSpec::Expectations::ExpectationNotMetError,
+                    /expected queries, but none were made/)
+          end
+        end
+      end
+    end
+
     context 'when a `schemaless` option is true' do
       before do
         DBQueryMatchers.configure do |config|
