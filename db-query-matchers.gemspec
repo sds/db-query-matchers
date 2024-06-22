@@ -12,6 +12,10 @@ Gem::Specification.new do |spec|
   spec.homepage      = 'https://github.com/brigade/db-query-matchers'
   spec.license       = 'MIT'
 
+  s.metadata = {
+    'changelog_uri' => 'https://github.com/sds/db-query-matchers/blob/main/CHANGELOG.md'
+  }
+
   spec.files         = Dir['lib/**/*.rb']
   spec.require_paths = ['lib']
 
