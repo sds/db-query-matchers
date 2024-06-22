@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.homepage      = 'https://github.com/brigade/db-query-matchers'
   spec.license       = 'MIT'
 
-  s.metadata = {
+  spec.metadata = {
     'changelog_uri' => 'https://github.com/sds/db-query-matchers/blob/main/CHANGELOG.md'
   }
 
