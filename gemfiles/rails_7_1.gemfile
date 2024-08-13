@@ -3,6 +3,5 @@
 source "https://rubygems.org"
 
 gem "activesupport", "~> 7.1.0"
-gem "sqlite3", force_ruby_platform: true
 
 gemspec path: "../"

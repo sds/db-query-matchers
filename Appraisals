@@ -13,7 +13,6 @@ end
 appraise "rails_7_1" do
   version = "~> 7.1.0"
   gem "activesupport", version
-  gem "sqlite3", force_ruby_platform: true
 end
 
 appraise "rails_7_2" do
