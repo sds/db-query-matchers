@@ -19,5 +19,4 @@ end
 appraise "rails_7_2" do
   version = "~> 7.2.0"
   gem "activesupport", version
-  gem "sqlite3", ">= 1.4"
 end
