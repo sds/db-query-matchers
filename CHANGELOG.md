@@ -1,3 +1,7 @@
+## 0.13.0
+
+- Drop support for Ruby 3.0 (3.1+ still supported)
+
 ## 0.12.0
 
 - Drop support for EOL software (Ruby 2.x, Rails 6.0)
