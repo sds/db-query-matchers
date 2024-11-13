@@ -1,3 +1,7 @@
+## 0.14.0
+
+- Relax gem constraints to allow Rails 8.0
+
 ## 0.13.0
 
 - Drop support for Ruby 3.0 (3.1+ still supported)
