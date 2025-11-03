@@ -1,3 +1,7 @@
+## 0.15.0
+
+- Relax gem constraints to allow any Rails version
+
 ## 0.14.0
 
 - Relax gem constraints to allow Rails 8.0
